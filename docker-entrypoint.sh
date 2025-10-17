@@ -13,22 +13,19 @@ ls -la "$TB_DIR" || true
 ls -la "$TB_BIN_DIR" || true
 
 # --- pick port from Railway ---
-PORT="${PORT:-}"
-if [ -z "$PORT" ]; then
-  # บางโปรเจกต์ Railway ไม่ฉีด PORT — ให้ลองอ่านจาก .env/variables เอง
-  # ถ้าไม่มีจริงๆ ให้ล้มเหลวเพื่อบอกปัญหาชัดเจน (ดีกว่ารันที่ 8080 แล้วเข้าไม่ได้)
+if [ -z "${PORT:-}" ]; then
   echo "[ERROR] PORT env is empty. Railway Web services must listen on the injected \$PORT."
-  echo "Tips: Service type must be Web; do NOT hardcode port in Variables."
   exit 64
 fi
-echo "[TB] Starting ThingsBoard on port ${PORT} via java -jar"
 
+echo "[TB] Starting ThingsBoard on port ${PORT} via java -jar"
 exec java $JAVA_OPTS \
   -Dserver.address=0.0.0.0 \
   -Dserver.port="${PORT}" \
   -Dspring.config.additional-location="/usr/share/thingsboard/conf/" \
   -Dlogging.config="/usr/share/thingsboard/conf/logback.xml" \
   -jar "/usr/share/thingsboard/bin/thingsboard.jar"
+
 
 
 
