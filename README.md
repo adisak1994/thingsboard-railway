@@ -1,18 +1,18 @@
-# ThingsBoard on Railway – Starter Repo (TB 4.2.1)
+# ThingsBoard on Railway – Starter (runs JAR directly)
 
-Deploy ThingsBoard CE using the official `.deb` inside a Docker image on Railway.
-This skips Maven build and uses Railway PostgreSQL.
+This repo installs ThingsBoard CE (4.2.1) from the official `.deb` and runs it
+via `java -jar` because some builds don't ship the `bin/thingsboard` launcher script.
 
-## Railway Postgres SSL tip
-If your install crashes during DB init, set:
-`SPRING_DATASOURCE_URL=jdbc:postgresql://HOST:PORT/DB?sslmode=require`
+## Railway setup
+- Add a PostgreSQL service.
+- In the ThingsBoard service Variables:
+  - `SPRING_DATASOURCE_URL=jdbc:postgresql://HOST:PORT/DB?sslmode=require`
+  - `SPRING_DATASOURCE_USERNAME=USER`
+  - `SPRING_DATASOURCE_PASSWORD=PASS`
+  - `TB_QUEUE_TYPE=in-memory`
+  - `JAVA_OPTS=-Xms256M -Xmx768M`
+  - `TB_INSTALL=true` (first deploy only)
 
-## Variables (Service: thingsboard)
-- `SPRING_DATASOURCE_URL`
-- `SPRING_DATASOURCE_USERNAME`
-- `SPRING_DATASOURCE_PASSWORD`
-- `TB_QUEUE_TYPE=in-memory`
-- `JAVA_OPTS=-Xms256M -Xmx512M`
-- `TB_INSTALL=true` (first deploy only)
+After first successful deploy, remove or set `TB_INSTALL=false` and redeploy.
 
 Login: `tenant@thingsboard.org` / `tenant`
