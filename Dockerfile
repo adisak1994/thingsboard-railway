@@ -12,7 +12,7 @@ ENV DATABASE_ENTITIES_TYPE=sql     DATABASE_TS_TYPE=sql     TB_QUEUE_TYPE=in-mem
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-EXPOSE 8080
+
 HEALTHCHECK --interval=30s --timeout=5s --retries=10 \
   CMD bash -lc 'curl -fsS http://127.0.0.1:${PORT}/api/health || exit 1'
 
