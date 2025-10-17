@@ -7,12 +7,7 @@ WORKDIR /app
 ARG TB_VERSION=4.2.1
 RUN set -eux;     wget -O /tmp/thingsboard.deb https://sourceforge.net/projects/thingsboard.mirror/files/v$TB_VERSION/thingsboard-$TB_VERSION.deb/download;     apt-get update;     apt-get install -y /tmp/thingsboard.deb;     rm -f /tmp/thingsboard.deb;     rm -rf /var/lib/apt/lists/*
 
-ENV DATABASE_ENTITIES_TYPE=sql     DATABASE_TS_TYPE=sql     TB_QUEUE_TYPE=in-memory     JAVA_OPTS="-Xms256M -Xmx512M"     SERVER_PORT=8080
-
-# SPRING_DATASOURCE_URL=jdbc:postgresql://HOST:PORT/DB?sslmode=require
-# SPRING_DATASOURCE_USERNAME=USER
-# SPRING_DATASOURCE_PASSWORD=PASS
-# TB_INSTALL=true
+ENV DATABASE_ENTITIES_TYPE=sql     DATABASE_TS_TYPE=sql     TB_QUEUE_TYPE=in-memory     JAVA_OPTS="-Xms256M -Xmx768M"     SERVER_PORT=8080
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh

@@ -1,18 +1,12 @@
-# ThingsBoard on Railway – Starter (runs JAR directly)
+# ThingsBoard on Railway – Auto-env Starter (TB 4.2.1)
 
-This repo installs ThingsBoard CE (4.2.1) from the official `.deb` and runs it
-via `java -jar` because some builds don't ship the `bin/thingsboard` launcher script.
+Auto-detects Railway Postgres env vars and maps them to Spring datasource if you
+didn't set SPRING_* yourself.
 
-## Railway setup
-- Add a PostgreSQL service.
-- In the ThingsBoard service Variables:
-  - `SPRING_DATASOURCE_URL=jdbc:postgresql://HOST:PORT/DB?sslmode=require`
-  - `SPRING_DATASOURCE_USERNAME=USER`
-  - `SPRING_DATASOURCE_PASSWORD=PASS`
-  - `TB_QUEUE_TYPE=in-memory`
-  - `JAVA_OPTS=-Xms256M -Xmx768M`
-  - `TB_INSTALL=true` (first deploy only)
+Order:
+1) Private (no egress): RAILWAY_PRIVATE_DOMAIN + PG* → sslmode=disable
+2) Public: RAILWAY_TCP_PROXY_DOMAIN + PG* → sslmode=require
+3) DATABASE_URL (postgres://...) → converted to JDBC
 
-After first successful deploy, remove or set `TB_INSTALL=false` and redeploy.
-
-Login: `tenant@thingsboard.org` / `tenant`
+First deploy: set `TB_INSTALL=true` to create schema, then remove/false and redeploy.
+Login: `tenant@thingsboard.org / tenant`
