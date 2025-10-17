@@ -23,6 +23,7 @@ exec java $JAVA_OPTS \
   -jar "/usr/share/thingsboard/bin/thingsboard.jar"
 
 
+
 if [ ! -f "$TB_JAR" ]; then
   echo "[ERROR] ThingsBoard JAR not found at $TB_JAR"
   exit 127
