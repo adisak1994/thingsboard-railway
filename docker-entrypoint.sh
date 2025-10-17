@@ -12,6 +12,17 @@ echo "[TB] Checking installation layout..."
 ls -la "$TB_DIR" || true
 ls -la "$TB_BIN_DIR" || true
 
+PORT="${PORT:-8080}"
+echo "[TB] Starting ThingsBoard on port ${PORT} via java -jar"
+
+exec java $JAVA_OPTS \
+  -Dserver.address=0.0.0.0 \
+  -Dserver.port="${PORT}" \
+  -Dspring.config.additional-location="/usr/share/thingsboard/conf/" \
+  -Dlogging.config="/usr/share/thingsboard/conf/logback.xml" \
+  -jar "/usr/share/thingsboard/bin/thingsboard.jar"
+
+
 if [ ! -f "$TB_JAR" ]; then
   echo "[ERROR] ThingsBoard JAR not found at $TB_JAR"
   exit 127
